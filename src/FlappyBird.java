@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import javax.swing.*;
 
@@ -66,20 +67,15 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        backgroundImage = new ImageIcon(getClass().getResource("./flappybirdbg.png")).getImage();
-        birdImage = new ImageIcon(getClass().getResource("./flappybird.png")).getImage();
-        topPipeImage = new ImageIcon(getClass().getResource("./toppipe.png")).getImage();
-        bottomPipeImage = new ImageIcon(getClass().getResource("./bottompipe.png")).getImage();
+        backgroundImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("./flappybirdbg.png"))).getImage();
+        birdImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("./flappybird.png"))).getImage();
+        topPipeImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("./toppipe.png"))).getImage();
+        bottomPipeImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("./bottompipe.png"))).getImage();
 
         bird = new Bird(birdImage);
-        pipes = new ArrayList<Pipe>();
+        pipes = new ArrayList<>();
 
-        placePipeTimer = new Timer(1500, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                placePipes();
-            }
-        });
+        placePipeTimer = new Timer(1500, e -> placePipes());
         placePipeTimer.start();
 
         gameLoop = new Timer(1000/60, this);
@@ -115,7 +111,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.PLAIN, 32));
         if (gameOver) {
-            g.drawString("Game Over: " + String.valueOf((int) score), 10, 35);
+            g.drawString("Game Over: " + (int) score, 10, 35);
         } else {
             g.drawString(String.valueOf((int) score), 10, 35);
         }

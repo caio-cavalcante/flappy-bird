@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 import javax.swing.*;
 
 public class FlappyBird extends JPanel implements ActionListener, KeyListener {
@@ -55,12 +54,12 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
     int gravity = 1;
 
     ArrayList<Pipe> pipes;
-    Random random = new Random();
 
     Timer gameLoop;
     Timer placePipeTimer;
     boolean gameOver = false;
     double score = 0;
+    double highScore = 0;
 
     FlappyBird() {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
@@ -75,7 +74,7 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         bird = new Bird(birdImage);
         pipes = new ArrayList<>();
 
-        placePipeTimer = new Timer(1500, e -> placePipes());
+        placePipeTimer = new Timer(1500, _ -> placePipes());
         placePipeTimer.start();
 
         gameLoop = new Timer(1000/60, this);
@@ -154,6 +153,10 @@ public class FlappyBird extends JPanel implements ActionListener, KeyListener {
         if (gameOver) {
             placePipeTimer.stop();
             gameLoop.stop();
+            if (score > highScore) {
+                highScore = score;
+                JOptionPane.showMessageDialog(null, "New High Score: " + (int) highScore);
+            }
         }
     }
 

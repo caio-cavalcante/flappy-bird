@@ -16,6 +16,5 @@ public class Game {
         frame.pack();
         flappyBird.requestFocus();
         frame.setVisible(true);
-
     }
 }
